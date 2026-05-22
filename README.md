@@ -1,295 +1,145 @@
-# Pokédex Aleatória em React Native com Expo
+# Pokédex Aleatória
 
-## Descrição do Projeto
+Aplicativo mobile desenvolvido com React Native e Expo que consome a PokéAPI para gerar Pokémons aleatórios exibindo imagem, nome e informações do personagem.
 
-Este projeto consiste em um aplicativo mobile desenvolvido em React Native utilizando Expo. O aplicativo consome dados de uma API pública de Pokémon e exibe informações na tela de forma dinâmica.
-
-A aplicação gera Pokémons aleatórios através de um botão e mostra:
-
-- imagem do Pokémon
-- nome
-- ID
-- altura
-- peso
-- experiência base
-
-A API utilizada foi a PokéAPI.
-
----
-
-# Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - React Native
 - Expo
-- JavaScript
 - Axios
-- API REST
+- JavaScript
+- PokéAPI
 
----
+## Funcionalidades
 
-# Criação do Projeto
+- Gerar Pokémons aleatórios
+- Exibir imagem do Pokémon
+- Mostrar:
+  - Nome
+  - ID
+  - Altura
+  - Peso
+  - Experiência base
+- Indicador de carregamento durante requisições
+- Interface estilizada em tema dark
 
-## 1. Criar o projeto Expo
+## API Utilizada
 
-No terminal:
+API pública:
 
 ```bash
-npx create-expo-app meu-app
+https://pokeapi.co/api/v2/pokemon/
 ```
 
-## 2. Entrar na pasta do projeto
+## Instalação
+
+Clone o repositório:
 
 ```bash
-cd meu-app
+git clone https://github.com/seu-usuario/pokedex-react-native.git
 ```
 
-## 3. Instalar a biblioteca Axios
+Entre na pasta do projeto:
 
-O Axios foi utilizado para realizar requisições HTTP para a API.
+```bash
+cd pokedex-react-native/meu-app
+```
+
+Instale as dependências:
+
+```bash
+npm install
+```
+
+Instale o Axios:
 
 ```bash
 npm install axios
 ```
 
-## 4. Executar o projeto
+## Executando o Projeto
+
+Inicie o servidor Expo:
 
 ```bash
 npx expo start
 ```
 
-Após isso:
-- escanear o QR Code com o aplicativo Expo Go
-- ou pressionar `a` para abrir no Android
+Para limpar cache:
 
----
+```bash
+npx expo start --clear
+```
 
-# Estrutura do Projeto
+## Estrutura do Projeto
 
 ```bash
 meu-app/
+│
 ├── App.js
 ├── package.json
 ├── node_modules/
-└── assets/
+├── assets/
+└── .gitignore
 ```
 
----
+## Funcionamento
 
-# Funcionamento do Aplicativo
+O aplicativo gera um número aleatório entre 1 e 1025 para buscar informações de um Pokémon na PokéAPI.
 
-## Importações Utilizadas
-
-Foram importados componentes do React Native para construção da interface:
-
-```javascript
-import {
-  StyleSheet,
-  Text,
-  View,
-  ActivityIndicator,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
-```
-
-Também foram utilizados:
-
-```javascript
-import React, { useEffect, useState } from 'react';
-```
-
-e:
-
-```javascript
-import axios from 'axios';
-```
-
----
-
-# Estados do Aplicativo
-
-Foram utilizados dois estados:
-
-```javascript
-const [pokemon, setPokemon] = useState(null);
-const [loading, setLoading] = useState(true);
-```
-
-## Explicação
-
-- `pokemon`
-  - armazena os dados do Pokémon recebido pela API
-
-- `loading`
-  - controla o carregamento da aplicação
-
----
-
-# Consumo da API
-
-Foi criada a função:
-
-```javascript
-async function buscarPokemonAleatorio()
-```
-
-Essa função:
-- gera um número aleatório
-- faz requisição para a API
-- salva os dados recebidos
-
-## Número Aleatório
+Exemplo da requisição:
 
 ```javascript
 const numeroAleatorio = Math.floor(Math.random() * 1025) + 1;
-```
 
-Isso gera IDs aleatórios de Pokémon.
-
-## Requisição HTTP
-
-```javascript
 const resposta = await axios.get(
   `https://pokeapi.co/api/v2/pokemon/${numeroAleatorio}`
 );
 ```
 
-A API retorna os dados completos do Pokémon.
+Os dados retornados são armazenados utilizando `useState` e renderizados na interface.
 
----
+## Interface
 
-# Carregamento Automático
+A interface foi construída utilizando componentes nativos do React Native:
 
-Foi utilizado:
+- View
+- Text
+- Image
+- TouchableOpacity
+- ActivityIndicator
 
-```javascript
-useEffect(() => {
-  buscarPokemonAleatorio();
-}, []);
+## Aprendizados
+
+Durante o desenvolvimento foram praticados conceitos como:
+
+- Consumo de APIs REST
+- Requisições assíncronas
+- Gerenciamento de estado com Hooks
+- Estilização no React Native
+- Estruturação de aplicações Expo
+- Tratamento de loading
+
+## Git Ignore
+
+Arquivos ignorados no projeto:
+
+```gitignore
+node_modules/
+.expo/
+dist/
+web-build/
+.env*.local
+.claude/
+claude.json
 ```
 
-Isso faz com que um Pokémon seja carregado automaticamente ao abrir o aplicativo.
+## Commit Utilizado
 
----
-
-# Exibição das Informações
-
-## Imagem
-
-```javascript
-<Image
-  source={{
-    uri: pokemon.sprites.front_default,
-  }}
-  style={styles.imagem}
-/>
+```bash
+git commit -m "feat: implement random pokedex app with pokeapi integration"
 ```
 
-A imagem é obtida diretamente da API.
+## Autor
 
-## Nome
-
-```javascript
-{pokemon.name}
-```
-
-## ID
-
-```javascript
-{pokemon.id}
-```
-
-## Altura
-
-```javascript
-{pokemon.height}
-```
-
-## Peso
-
-```javascript
-{pokemon.weight}
-```
-
-## Experiência Base
-
-```javascript
-{pokemon.base_experience}
-```
-
----
-
-# Botão para Gerar Novos Pokémons
-
-Foi utilizado o componente:
-
-```javascript
-<TouchableOpacity>
-```
-
-Ao clicar:
-
-```javascript
-onPress={buscarPokemonAleatorio}
-```
-
-Um novo Pokémon aleatório é carregado.
-
----
-
-# Estilização
-
-A estilização foi feita utilizando:
-
-```javascript
-StyleSheet.create()
-```
-
-Foram aplicados:
-- cores
-- tamanhos
-- alinhamentos
-- margens
-- bordas
-- espaçamentos
-
----
-
-# Resultado Final
-
-O aplicativo final:
-- consome uma API pública
-- renderiza informações em tempo real
-- possui interface visual
-- possui interação através de botão
-- exibe imagens dinamicamente
-
----
-
-# Aprendizados Obtidos
-
-Durante o desenvolvimento foram utilizados conceitos importantes de React Native:
-
-- componentes
-- props
-- hooks
-- useState
-- useEffect
-- consumo de API
-- renderização dinâmica
-- estilização
-- eventos de clique
-- requisições HTTP
-- programação assíncrona
-
----
-
-# API Utilizada
-
-API pública:
-
-- PokéAPI
-
-Documentação:
-
-- https://pokeapi.co/docs/v2
+Arthur
